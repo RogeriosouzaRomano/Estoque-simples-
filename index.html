@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque de Lâmpadas</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f0f9f0;
+        }
+        h1,h4 {
+            color: #2e7d32;
+            text-align: center;
+            
+            
+        }
+        h4{
+            font-size:14px
+        }
+        .btn {
+            margin: 10px 0;
+            border-radius: 30px;
+            height: 60px;
+            width: 100%;
+            background-color: #4caf50;
+            color: white;
+        }
+        .btn:hover {
+            background-color: #388e3c;
+        }
+        .hidden {
+            display: none;
+        }
+        .container {
+            max-width: 700px;
+            margin-top: 160px;
+            position: relative ;
+        }
+        #stock-data {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .cabecalho{
+            position: fixed ;
+            width: 100%;            
+            margin-top: -160px;
+            padding: 10px;
+            text-align: center;
+            z-index:1;
+            background:#3ec600f4;
+            
+        }
+        .logo{
+            width: 100px;
+            position: absolute;
+            margin-left:-47%;
+        }
+    </style>
+</head>
+<body>
+<div class="cabecalho">
+  <img class="logo"src="logo.png" alt="logotipo">  <h1>Manutenção</h1>
+    <h4>Estoque de Lâmpadas</h4>
+<hr>
+</div>
+<div class="container">
+    
+    <div id="product-buttons">
+        <button class="btn btn-success" data-product="lampada e27 3500k (Poste e balizador)">Lâmpada E27 3500K </button>
+        <button class="btn btn-success" data-product="lampada e27 6500k (Lixeiras e Escadas)">Lâmpada E27 6500K </button>
+        <button class="btn btn-success" data-product="lampada quadrada 18w 3500k (Térreo Áreas Comuns)">Lâmpada Quadrada 18W 3500K </button>
+        <button class="btn btn-success" data-product="lampada redonda 6w 6500k (Corredores dos Andares)">Lâmpada Redonda 6W 6500K </button>
+        <button class="btn btn-success" data-product="lampada quadrada 6w 3500k (Hall Social)">Lâmpada Quadrada 6W 3500K </button>
+        <button class="btn btn-success" data-product="lampada quadrada 6w 6500k">Lâmpada Quadrada 6W 6500K</button>
+        <button class="btn btn-success" data-product="lampada quadrada 12w 6500k (Academia)">Lâmpada Quadrada 12W 6500K </button>
+        <button class="btn btn-success" data-product="lampada quadrada 12w 3500k (Lateral externa do Club House)">Lâmpada Quadrada 12W 3500K </button>
+        <button class="btn btn-success" data-product="lampada redonda 12w 6500k (Frente Club House)">Lâmpada Redonda 12W 6500K </button>
+        <button class="btn btn-success" data-product="lampada 3w quadrada 3500k (Hall Social)">Lâmpada 3W Quadrada 3500K </button>
+        <button class="btn btn-success" data-product="lampada quadrada 3w 6500k">Lâmpada Quadrada 3W 6500K</button>
+        <button class="btn btn-success" data-product="lampada quadrada sobrepor 24w 3500k (Churrasqueira)">Lâmpada Quadrada Sobrepor 24W 3500K </button>
+        <button class="btn btn-success" data-product="gu10 3500k (Jardim)">GU10 3500K </button>
+        <button class="btn btn-success" data-product="gu10 6500k (Elevadores)">GU10 6500K </button>
+        <button class="btn btn-success" data-product="lampada palito led 5w (Luminárias Jogos Adultos)">Lâmpada Palito LED 5W </button>
+        <button class="btn btn-success" data-product="lampada led palito 9w (Luminárias Jogos Adultos)">Lâmpada LED Palito 9W </button>
+        <button class="btn btn-success" data-product="lampada tubular 9w 6500k (Garagem Subsolo)">Lâmpada Tubular 9W 6500K </button>
+        <button class="btn btn-success" data-product="lampada tubular 9w 4000k (Sanca)">Lâmpada Tubular 9W 4000K </button>
+        <button class="btn btn-success" data-product="tubular 18w 4000k (Sanca)">Tubular 18W 4000K </button>
+        <button class="btn btn-success" data-product="tubular 18w 6500k (Garagem Subsolo)">Tubular 18W 6500K </button>
+        <button class="btn btn-success" data-product="espeto verde (Jardim)">Espeto Verde </button>
+        <button class="btn btn-success" data-product="espeto amarelo (Jardim)">Espeto Amarelo </button>
+        <button class="btn btn-success" data-product="par20 3000k (Coluna Club House)">Par20 3000K </button>
+    </div>
+
+    <h2>Dados do estoque:</h2>
+    <pre id="stock-data"></pre>
+
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-success" onclick="printStock()">Ver Estoque Completo</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success" onclick="printLowStock()">Ver Estoque Baixo</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-success" onclick="saveStockPDF()">Salvar Estoque Completo em PDF</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success" onclick="saveLowStockPDF()">Salvar Estoque Baixo em PDF</button>
+        </div>
+    </div>
+
+    <button class="btn btn-danger" onclick="resetStock()">Zerar Estoque</button>
+</div>
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let stock = JSON.parse(localStorage.getItem('stock')) || {};
+
+    document.getElementById('product-buttons').addEventListener('click', function(event) {
+        if (event.target.tagName === 'BUTTON') {
+            const product = event.target.getAttribute('data-product');
+            const quantity = prompt("Digite a quantidade para " + product);
+
+            if (quantity !== null && quantity !== "") {
+                stock[product] = (stock[product] || 0) + parseInt(quantity);
+                localStorage.setItem('stock', JSON.stringify(stock));
+
+                // Oculta o botão após adicionar a quantidade
+                event.target.classList.add('hidden');
+            }
+        }
+    });
+
+    function printStock() {
+        const stockData = JSON.parse(localStorage.getItem('stock')) || {};
+        const pre = document.getElementById('stock-data');
+        pre.textContent = '';
+
+        for (const product in stockData) {
+            pre.textContent += `${product}: ${stockData[product]}\n`;
+        }
+    }
+
+    function printLowStock() {
+        const stockData = JSON.parse(localStorage.getItem('stock')) || {};
+        const pre = document.getElementById('stock-data');
+        pre.textContent = '';
+
+        for (const product in stockData) {
+            if (stockData[product] <= 10) {
+                pre.textContent += `${product}: ${stockData[product]}\n`;
+            }
+        }
+    }
+
+    function saveStockPDF() {
+    const { jsPDF } = window.jspdf;
+    const stockData = JSON.parse(localStorage.getItem('stock')) || {};
+    const doc = new jsPDF();
+
+    // Definir margens
+    const margin = 20;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    // Desenhar linhas das margens
+    doc.line(margin, margin, margin, pageHeight - margin); // Linha vertical esquerda
+    doc.line(pageWidth - margin, margin, pageWidth - margin, pageHeight - margin); // Linha vertical direita
+    doc.line(margin, margin, pageWidth - margin, margin); // Linha horizontal superior
+    doc.line(margin, pageHeight - margin, pageWidth - margin, pageHeight - margin); // Linha horizontal inferior
+
+
+// Carregar a imagem (você pode carregar uma imagem local como base64)
+const imgData = 'logo.png';  // Substitua pelo seu Base64
+
+// Adicionar a imagem ao PDF (posicione a imagem no local desejado)
+doc.addImage(imgData, 'PNG', 22, margin+1, 25, 25); // (imagem, tipo, x, y, largura, altura)
+    // Cabeçalho
+    doc.setFontSize(14);
+    doc.text("Condomínio Londo Green Park Style", margin + 40, margin + 10);
+    doc.setFontSize(10);
+    doc.text("Endereço: Rua Cezar Lates, 1000 - Barra da Tijuca", margin + 40, margin + 16);
+    doc.text("CNPJ: 00.000.000/0001-00", margin +60, margin + 22);
+    doc.text("Data: " + new Date().toLocaleDateString(), pageWidth - margin - 48, margin + 22);
+
+    // Linha horizontal abaixo do cabeçalho
+    doc.line(margin, margin + 28, pageWidth - margin, margin + 28);
+
+
+    // Título da tabela
+    doc.setFontSize(12);
+    doc.text("Produto", margin + 2, margin + 34);
+    doc.text("Quantidade", pageWidth - margin - 40, margin + 34);
+    doc.line(margin, margin + 38, pageWidth - margin, margin + 38);
+
+    // Conteúdo da tabela
+    let y = margin + 44;
+    for (const product in stockData) {
+        doc.text(product, margin + 2, y);
+        doc.text(stockData[product].toString(), pageWidth - margin - 40, y);
+        y += 10;
+
+        // Verifica se chegou ao final da página e cria nova página se necessário
+        if (y > pageHeight - margin) {
+            doc.addPage();
+
+            // Redesenha as linhas das margens na nova página
+            doc.line(margin, margin, margin, pageHeight - margin); // Linha vertical esquerda
+            doc.line(pageWidth - margin, margin, pageWidth - margin, pageHeight - margin); // Linha vertical direita
+            doc.line(margin, margin, pageWidth - margin, margin); // Linha horizontal superior
+            doc.line(margin, pageHeight - margin, pageWidth - margin, pageHeight - margin); // Linha horizontal inferior
+
+            y = margin + 10; // Reinicia a posição vertical após cabeçalho
+        }
+    }
+
+    // Rodapé
+    doc.setFontSize(10);
+    doc.line(margin, y + 4, pageWidth - margin, y + 4);
+    doc.text("Obrigado pela preferência!", margin + 2, y + 12);
+
+    doc.save("estoque_completo_formatado_com_margens_e_linhas.pdf");
+}
+
+
+
+
+function saveLowStockPDF() {
+    const { jsPDF } = window.jspdf;
+    const stockData = JSON.parse(localStorage.getItem('stock')) || {};
+    const doc = new jsPDF();
+
+    // Definir margens
+    const margin = 20;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    // Função para desenhar as bordas
+    function drawBorders() {
+        doc.line(margin, margin, margin, pageHeight - margin); // Linha vertical esquerda
+        doc.line(pageWidth - margin, margin, pageWidth - margin, pageHeight - margin); // Linha vertical direita
+        doc.line(margin, margin, pageWidth - margin, margin); // Linha horizontal superior
+        doc.line(margin, pageHeight - margin, pageWidth - margin, pageHeight - margin); // Linha horizontal inferior
+    }
+
+    // Carregar a imagem Base64 (substitua pelo seu Base64 real)
+    const imgData = 'logo.png'; 
+
+    // Adicionar a imagem ao PDF
+    doc.addImage(imgData, 'PNG', margin + 2, margin + 1, 25, 25); // (imagem, tipo, x, y, largura, altura)
+
+    // Cabeçalho
+    doc.setFontSize(14);
+    doc.text("Condomínio Londo Green Park Style", margin + 30, margin + 10);
+    doc.setFontSize(10);
+    doc.text("Endereço: Rua Cezar Lates, 1000 - Barra da Tijuca", margin + 30, margin + 16);
+    doc.text("CNPJ: 00.000.000/0001-00", margin + 30, margin + 22);
+    doc.text("Data: " + new Date().toLocaleDateString(), pageWidth - margin - 50, margin + 22);
+
+    // Linha horizontal abaixo do cabeçalho
+    doc.line(margin, margin + 28, pageWidth - margin, margin + 28);
+
+    // Título da tabela
+    doc.setFontSize(12);
+    doc.text("Produto", margin + 2, margin + 34);
+    doc.text("Quantidade", pageWidth - margin - 40, margin + 34);
+    doc.line(margin, margin + 38, pageWidth - margin, margin + 38);
+
+    // Desenhar as bordas na primeira página
+    drawBorders();
+
+    // Conteúdo da tabela
+    let y = margin + 44;
+    for (const product in stockData) {
+        if (stockData[product] <= 10) {
+            doc.text(product, margin + 2, y);
+            doc.text(stockData[product].toString(), pageWidth - margin - 40, y);
+            y += 10;
+
+            // Verifica se chegou ao final da página e cria nova página se necessário
+            if (y > pageHeight - margin) {
+                doc.addPage();
+
+                // Redesenha o layout de cabeçalho e margens na nova página
+                doc.text("Produto", margin + 2, margin + 34);
+                doc.text("Quantidade", pageWidth - margin - 40, margin + 34);
+                doc.line(margin, margin + 38, pageWidth - margin, margin + 38);
+                
+                // Desenhar as bordas na nova página
+                drawBorders();
+
+                y = margin + 44; // Redefinir a posição y
+            }
+        }
+    }
+
+    // Rodapé
+    doc.setFontSize(10);
+    doc.line(margin, y + 4, pageWidth - margin, y + 4);
+    doc.text("Obrigado pela preferência!", margin + 2, y + 12);
+
+    // Desenhar as bordas da última página (se necessário)
+    drawBorders();
+
+    doc.save("estoque_baixo_nota_fiscal.pdf");
+}
+
+    function resetStock() {
+        localStorage.removeItem('stock');
+        stock = {};
+        document.getElementById('stock-data').textContent = '';
+        document.querySelectorAll('#product-buttons button').forEach(button => {
+            button.classList.remove('hidden');
+        });
+    }
+</script>
+
+</body>
+</html>
