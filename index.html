@@ -61,6 +61,7 @@
             position: absolute;
             margin-left:-47%;
         }
+        
     </style>
 </head>
 <body>
@@ -116,6 +117,12 @@
         </div>
         <div class="col-md-6">
             <button class="btn btn-success" onclick="saveLowStockPDF()">Salvar Estoque Baixo em PDF</button>
+            <div class="row">
+    <div class="col-md-6">
+        
+    </div>
+</div>
+
         </div>
     </div>
 
@@ -127,7 +134,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    let stock = JSON.parse(localStorage.getItem('stock')) || {};
+     let stock = JSON.parse(localStorage.getItem('stock')) || {};
 
     document.getElementById('product-buttons').addEventListener('click', function(event) {
         if (event.target.tagName === 'BUTTON') {
@@ -150,8 +157,20 @@
         pre.textContent = '';
 
         for (const product in stockData) {
-            pre.textContent += `${product}: ${stockData[product]}\n`;
+            pre.innerHTML += `
+                ${product}: ${stockData[product]}
+                <button class="btn btn-danger btn-sm" onclick="removeProduct('${product}')"style="width: 100px;height:30px ;">Remover</button><br>
+            `;
         }
+    }
+
+    function removeProduct(product) {
+        // Remover o produto do estoque
+        delete stock[product];
+        localStorage.setItem('stock', JSON.stringify(stock));
+
+        // Atualizar a exibição
+        printStock();
     }
 
     function printLowStock() {
@@ -165,6 +184,10 @@
             }
         }
     }
+    
+    
+    
+    
 
     function saveStockPDF() {
     const { jsPDF } = window.jspdf;
@@ -327,8 +350,8 @@ function saveLowStockPDF() {
         document.querySelectorAll('#product-buttons button').forEach(button => {
             button.classList.remove('hidden');
         });
-    }
+        }
 </script>
 
 </body>
-</html>
+    </html>
