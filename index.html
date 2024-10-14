@@ -138,19 +138,24 @@
      let stock = JSON.parse(localStorage.getItem('stock')) || {};
 
     document.getElementById('product-buttons').addEventListener('click', function(event) {
-        if (event.target.tagName === 'BUTTON') {
-            const product = event.target.getAttribute('data-product');
-            const quantity = prompt("Digite a quantidade para " + product);
+    if (event.target.tagName === 'BUTTON') {
+        const product = event.target.getAttribute('data-product');
+        const quantity = prompt("Digite a quantidade para " + product);
 
-            if (quantity !== null && quantity !== "") {
-                stock[product] = (stock[product] || 0) + parseInt(quantity);
-                localStorage.setItem('stock', JSON.stringify(stock));
+        if (quantity !== null && quantity !== "") {
+            stock[product] = (stock[product] || 0) + parseInt(quantity);
+            localStorage.setItem('stock', JSON.stringify(stock));
 
-                // Oculta o botão após adicionar a quantidade
-                event.target.classList.add('hidden');
-            }
+            // Oculta o botão após adicionar a quantidade
+            event.target.classList.add('hidden');
+
+            // Salva o estado do botão no localStorage
+            let hiddenButtons = JSON.parse(localStorage.getItem('hiddenButtons')) || {};
+            hiddenButtons[product] = true;
+            localStorage.setItem('hiddenButtons', JSON.stringify(hiddenButtons));
         }
-    });
+    }
+});
 
     function printStock() {
         const stockData = JSON.parse(localStorage.getItem('stock')) || {};
