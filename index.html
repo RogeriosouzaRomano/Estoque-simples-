@@ -262,7 +262,7 @@ doc.addImage(imgData, 'PNG', 22, margin+1, 25, 25); // (imagem, tipo, x, y, larg
     doc.line(margin, y + 4, pageWidth - margin, y + 4);
     doc.text("Obrigado pela preferência!", margin + 2, y + 12);
 
-    doc.save("estoque_completo_formatado_com_margens_e_linhas.pdf");
+    doc.save("estoque_completo.pdf");
 }
 
 
@@ -346,7 +346,7 @@ function saveLowStockPDF() {
     // Desenhar as bordas da última página (se necessário)
     drawBorders();
 
-    doc.save("estoque_baixo_nota_fiscal.pdf");
+    doc.save("estoque_baixo_Requisiçao.pdf");
 }
 
   document.addEventListener('DOMContentLoaded', function() {
