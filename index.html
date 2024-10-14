@@ -344,14 +344,50 @@ function saveLowStockPDF() {
     doc.save("estoque_baixo_nota_fiscal.pdf");
 }
 
-    function resetStock() {
-        localStorage.removeItem('stock');
-        stock = {};
-        document.getElementById('stock-data').textContent = '';
-        document.querySelectorAll('#product-buttons button').forEach(button => {
-            button.classList.remove('hidden');
-        });
+  document.addEventListener('DOMContentLoaded', function() {
+    // Carregar o estoque salvo e o estado de visibilidade dos botões
+    let stock = JSON.parse(localStorage.getItem('stock')) || {};
+    let hiddenButtons = JSON.parse(localStorage.getItem('hiddenButtons')) || {};
+
+    // Verificar se algum botão deve estar oculto
+    document.querySelectorAll('#product-buttons button').forEach(button => {
+        const product = button.getAttribute('data-product');
+        if (hiddenButtons[product]) {
+            button.classList.add('hidden');
         }
+    });
+});
+
+document.getElementById('product-buttons').addEventListener('click', function(event) {
+    if (event.target.tagName === 'BUTTON') {
+        const product = event.target.getAttribute('data-product');
+        const quantity = prompt("Digite a quantidade para " + product);
+
+        if (quantity !== null && quantity !== "") {
+            stock[product] = (stock[product] || 0) + parseInt(quantity);
+            localStorage.setItem('stock', JSON.stringify(stock));
+
+            // Oculta o botão após adicionar a quantidade
+            event.target.classList.add('hidden');
+
+            // Salva o estado do botão no localStorage
+            let hiddenButtons = JSON.parse(localStorage.getItem('hiddenButtons')) || {};
+            hiddenButtons[product] = true;
+            localStorage.setItem('hiddenButtons', JSON.stringify(hiddenButtons));
+        }
+    }
+});
+
+function resetStock() {
+    localStorage.removeItem('stock');
+    localStorage.removeItem('hiddenButtons');  // Remover também o estado dos botões
+    stock = {};
+    document.getElementById('stock-data').textContent = '';
+    document.querySelectorAll('#product-buttons button').forEach(button => {
+        button.classList.remove('hidden');
+    });
+}
+  
 </script>
 
 </body>
